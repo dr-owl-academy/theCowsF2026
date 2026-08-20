@@ -948,7 +948,7 @@ class PredictiveBrakingTuner extends OpMode {
  * @author Anyi Lin - 10158 Scott's Bots
  * @author Aaron Yang - 10158 Scott's Bots
  * @author Harrison Womack - 10158 Scott's Bots
- * @version 1.0, 3/12/2024
+ * @version 1.0, 3/12/2024*
  */
 class TranslationalTuner extends OpMode {
     public static double DISTANCE = 40;
