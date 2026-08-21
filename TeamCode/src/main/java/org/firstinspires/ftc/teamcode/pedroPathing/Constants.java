@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -17,7 +19,12 @@ public class Constants {
             .mass(6.4)
             .forwardZeroPowerAcceleration(-55.09376904)
             .lateralZeroPowerAcceleration(-69.73325289)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.07, 0, 0.013, 0.025))
+            .headingPIDFCoefficients(new PIDFCoefficients(1.0, 0.0, 0.30, 0.025))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.025,0.0,0.00001,0.6, 0.01))
+            .centripetalScaling(0.0005)
             ;
+
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
             .rightFrontMotorName("rightFront")
@@ -30,6 +37,7 @@ public class Constants {
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .xVelocity(73.80162421)
             .yVelocity(54.0536534194);
+
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(-4.27314645669)
             .strafePodX(-7.5339448819)
@@ -38,13 +46,13 @@ public class Constants {
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 2);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
+                .pinpointLocalizer(localizerConstants)
                 .pathConstraints(pathConstraints)
                 .mecanumDrivetrain(driveConstants)
-                .pinpointLocalizer(localizerConstants)
                 .build();
     }
 }
