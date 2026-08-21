@@ -31,6 +31,9 @@ public class Felix_Auton_Test extends OpMode {
 
     //use PathChain for each path segment
     private PathChain driveToTarget;
+    private PathChain driveToCentre;
+    private PathChain driveToGreen
+
 
     // Starting FSM state.
     private AutoState autoState = AutoState.START_TURN_TO_180;
@@ -100,6 +103,12 @@ public class Felix_Auton_Test extends OpMode {
                 .addPath(new BezierLine(DRIVE_START_POSE,TARGET_POSE))
                 .setConstantHeadingInterpolation( Math.toRadians(180))
                 .build();
+        driveTo = follower.pathBuilder()
+                .addPath(new BezierLine(DRIVE_START_POSE,TARGET_POSE))
+                .setConstantHeadingInterpolation( Math.toRadians(180))
+                .build();
+
+
     }
 
     // Updates the autonomous finite state machine.
@@ -137,6 +146,7 @@ public class Felix_Auton_Test extends OpMode {
 
             case HEAD_BACK_TO_CENTRE:
                 //heading back to centre so that it can intake green ball
+                follower.followPath(driveToTarget,true);
 
 
 
