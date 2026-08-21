@@ -133,18 +133,25 @@ public class simpleAutonNathan extends OpMode {
             case WAIT_FOR_DRIVE_TO_TARGET:
                 // Wait for the driving path to finish.
                 if (!follower.isBusy()) {
+                    testMotor.setPower(0);
                     autoState = AutoState.START_DRIVE_TO_GREEN_BALL;
-                    ;
                 }
                 break;
-            case START_DRIVE_TO_GREEN_BALL:
+
+                case START_DRIVE_TO_GREEN_BALL:
                 follower.followPath(goToGreen,true);
+                testMotor.setPower(1);
                 autoState = AutoState.WAIT_FOR_GREEN_BALL;
+
+
+                break;
 
             case WAIT_FOR_GREEN_BALL:
                 if(!follower.isBusy()) {
                     autoState = AutoState.COMPLETE;
                 }
+
+                break;
 
             case COMPLETE:
                 testMotor.setPower(0);
