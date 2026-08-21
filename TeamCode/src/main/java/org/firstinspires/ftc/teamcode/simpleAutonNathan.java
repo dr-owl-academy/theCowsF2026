@@ -99,7 +99,7 @@ public class simpleAutonNathan extends OpMode {
                 .build();
         goToGreen = follower.pathBuilder()
                 .addPath(new BezierLine(TARGET_POSE,GREEN_BALL_POSE))
-                .setConstantHeadingInterpolation( Math.toRadians(180))
+                .setConstantHeadingInterpolation( Math.toRadians(0))
                 .build();
     }
 
@@ -126,6 +126,7 @@ public class simpleAutonNathan extends OpMode {
                  * true tells Pedro to hold the final pose.
                  */
                 follower.followPath(driveToTarget,true);
+                testMotor.setPower(1);
                 autoState = AutoState.WAIT_FOR_DRIVE_TO_TARGET;
                 break;
 
@@ -133,6 +134,7 @@ public class simpleAutonNathan extends OpMode {
                 // Wait for the driving path to finish.
                 if (!follower.isBusy()) {
                     autoState = AutoState.START_DRIVE_TO_GREEN_BALL;
+                    ;
                 }
                 break;
             case START_DRIVE_TO_GREEN_BALL:
@@ -145,6 +147,7 @@ public class simpleAutonNathan extends OpMode {
                 }
 
             case COMPLETE:
+                testMotor.setPower(0);
                 break;
         }
     }
