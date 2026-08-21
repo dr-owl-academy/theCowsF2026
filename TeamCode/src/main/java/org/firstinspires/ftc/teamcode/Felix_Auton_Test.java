@@ -33,18 +33,17 @@ public class Felix_Auton_Test extends OpMode {
     //use PathChain for each path segment
     private PathChain driveToTarget;
     private PathChain driveToCentre;
-    private PathChain driveToGreen
+    private PathChain driveToGreen;
 
 
     // Starting FSM state.
     private AutoState autoState = AutoState.START_TURN_TO_180;
 
-    private static final Pose START_POSE = new Pose(72,72,Math.toRadians(90) );
-    private static final Pose DRIVE_START_POSE = new Pose(72,72,Math.toRadians(180));
-    private static final Pose TARGET_POSE = new Pose(24,72, Math.toRadians(180));
-    private static final Pose CENTRE = new Pose(72,72,Math.toRadians(-90));
-    private static final Pose GREEN_BALL = new Pose(72,72,Math.toRadians(-90));
-
+    private static final Pose START_POSE = new Pose(72, 72, Math.toRadians(90));
+    private static final Pose DRIVE_START_POSE = new Pose(72, 72, Math.toRadians(180));
+    private static final Pose TARGET_POSE = new Pose(24, 72, Math.toRadians(180));
+    private static final Pose CENTRE = new Pose(72, 72, Math.toRadians(-90));
+    private static final Pose GREEN_BALL = new Pose(72, 72, Math.toRadians(-90));
 
 
     @Override
@@ -76,17 +75,17 @@ public class Felix_Auton_Test extends OpMode {
 
         Pose currentPose = follower.getPose();
 
-        telemetry.addData("X", currentPose.getX() );
+        telemetry.addData("X", currentPose.getX());
 
-        telemetry.addData("Y", currentPose.getY() );
+        telemetry.addData("Y", currentPose.getY());
 
         telemetry.addData("Heading", Math.toDegrees(currentPose.getHeading()));
 
-        telemetry.addData("State", autoState );
+        telemetry.addData("State", autoState);
 
         if (autoState == AutoState.COMPLETE) {
 
-            telemetry.addLine("Autonomous complete" );
+            telemetry.addLine("Autonomous complete");
         }
 
         telemetry.update();
@@ -101,16 +100,16 @@ public class Felix_Auton_Test extends OpMode {
     private void buildPath() {
 
         driveToTarget = follower.pathBuilder()
-                .addPath(new BezierLine(DRIVE_START_POSE,TARGET_POSE))
-                .setConstantHeadingInterpolation( Math.toRadians(180))
+                .addPath(new BezierLine(DRIVE_START_POSE, TARGET_POSE))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
         driveToCentre = follower.pathBuilder()
-                .addPath(new BezierLine(TARGET_POSE,CENTRE))
-                .setLinearHeadingInterpolation( Math.toRadians(180),Math.toRadians(180))
+                .addPath(new BezierLine(TARGET_POSE, CENTRE))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
         driveToGreen = follower.pathBuilder()
-                .addPath(new BezierLine(TARGET_POSE,CENTRE))
-                .setConstantHeadingInterpolation( Math.toRadians(180))
+                .addPath(new BezierLine(TARGET_POSE, CENTRE))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
 
 
@@ -123,7 +122,7 @@ public class Felix_Auton_Test extends OpMode {
 
             case START_TURN_TO_180:
                 // Turn in place from 90 degrees to 0 degrees.
-                follower.turnTo( Math.toRadians(180));
+                follower.turnTo(Math.toRadians(180));
                 autoState = AutoState.WAIT_FOR_TURN_TO_180;
                 break;
 
@@ -138,7 +137,7 @@ public class Felix_Auton_Test extends OpMode {
                 /* Start driving to the target.
                  * true tells Pedro to hold the final pose.
                  */
-                follower.followPath(driveToTarget,true);
+                follower.followPath(driveToTarget, true);
                 autoState = AutoState.WAIT_FOR_DRIVE_TO_TARGET;
                 break;
 
@@ -151,13 +150,13 @@ public class Felix_Auton_Test extends OpMode {
 
             case HEAD_BACK_TO_CENTRE:
                 //heading back to centre so that it can intake green ball
-                follower.followPath(driveToCentre,true);
+                follower.followPath(driveToCentre, true);
                 autoState = AutoState.WAIT_FOR_DRIVE_TO_CENTRE;
                 break;
 
             case WAIT_FOR_DRIVE_TO_CENTRE:
                 //waiting for the path to finish
-                if (!follower.isBusy()){
+                if (!follower.isBusy()) {
                     autoState = AutoState.START_DRIVE_TO_GREEN_BALL;
                 }
                 break;
@@ -168,7 +167,7 @@ public class Felix_Auton_Test extends OpMode {
                 autoState = AutoState.WAIT_DRIVE_TO_GREEN_BALL;
                 break;
             case WAIT_DRIVE_TO_GREEN_BALL:
-                if(!follower.isBusy()){
+                if (!follower.isBusy()) {
                     testMotor.setPower(0);
                     autoState = AutoState.COMPLETE;
                 }
@@ -178,4 +177,5 @@ public class Felix_Auton_Test extends OpMode {
                 break;
         }
     }
+}
 
