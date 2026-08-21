@@ -22,6 +22,7 @@ public class Felix_Auton_Test extends OpMode {
         START_DRIVE_TO_TARGET,
         WAIT_FOR_DRIVE_TO_TARGET,
         HEAD_BACK_TO_CENTRE,
+        WAIT_FOR_DRIVE_TO_CENTRE,
         START_DRIVE_TO_GREEN_BALL,
         WAIT_DRIVE_TO_GREEN_BALL,
         COMPLETE,
@@ -103,8 +104,12 @@ public class Felix_Auton_Test extends OpMode {
                 .addPath(new BezierLine(DRIVE_START_POSE,TARGET_POSE))
                 .setConstantHeadingInterpolation( Math.toRadians(180))
                 .build();
-        driveTo = follower.pathBuilder()
-                .addPath(new BezierLine(DRIVE_START_POSE,TARGET_POSE))
+        driveToCentre = follower.pathBuilder()
+                .addPath(new BezierLine(TARGET_POSE,CENTRE))
+                .setLinearHeadingInterpolation( Math.toRadians(180),Math.toRadians(180))
+                .build();
+        driveToGreen = follower.pathBuilder()
+                .addPath(new BezierLine(TARGET_POSE,CENTRE))
                 .setConstantHeadingInterpolation( Math.toRadians(180))
                 .build();
 
@@ -140,18 +145,37 @@ public class Felix_Auton_Test extends OpMode {
             case WAIT_FOR_DRIVE_TO_TARGET:
                 // Wait for the driving path to finish.
                 if (!follower.isBusy()) {
-                    autoState = AutoState.COMPLETE;
+                    autoState = AutoState.HEAD_BACK_TO_CENTRE;
                 }
                 break;
 
             case HEAD_BACK_TO_CENTRE:
                 //heading back to centre so that it can intake green ball
-                follower.followPath(driveToTarget,true);
+                follower.followPath(driveToCentre,true);
+                autoState = AutoState.WAIT_FOR_DRIVE_TO_CENTRE;
+                break;
 
+            case WAIT_FOR_DRIVE_TO_CENTRE:
+                //waiting for the path to finish
+                if (!follower.isBusy()){
+                    autoState = AutoState.START_DRIVE_TO_GREEN_BALL;
+                }
+                break;
 
+            case START_DRIVE_TO_GREEN_BALL:
+                follower.followPath(driveToGreen, true);
+                testMotor.setPower(1);
+                autoState = AutoState.WAIT_DRIVE_TO_GREEN_BALL;
+                break;
+            case WAIT_DRIVE_TO_GREEN_BALL:
+                if(!follower.isBusy()){
+                    testMotor.setPower(0);
+                    autoState = AutoState.COMPLETE;
+                }
+                break;
 
             case COMPLETE:
                 break;
         }
     }
-}
+
