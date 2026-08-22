@@ -43,7 +43,7 @@ public class Felix_Auton_Test extends OpMode {
     private static final Pose DRIVE_START_POSE = new Pose(72, 72, Math.toRadians(180));
     private static final Pose TARGET_POSE = new Pose(24, 72, Math.toRadians(180));
     private static final Pose CENTRE = new Pose(72, 72, Math.toRadians(-90));
-    private static final Pose GREEN_BALL = new Pose(72, 72, Math.toRadians(-90));
+    private static final Pose GREEN_BALL = new Pose(72, 24, Math.toRadians(-90));
 
 
     @Override
@@ -139,6 +139,7 @@ public class Felix_Auton_Test extends OpMode {
                  * true tells Pedro to hold the final pose.
                  */
                 follower.followPath(driveToTarget, true);
+                testMotor.setPower(1);
                 autoState = AutoState.WAIT_FOR_DRIVE_TO_TARGET;
                 break;
 
@@ -146,6 +147,7 @@ public class Felix_Auton_Test extends OpMode {
                 // Wait for the driving path to finish.
                 if (!follower.isBusy()) {
                     autoState = AutoState.HEAD_BACK_TO_CENTRE;
+                    testMotor.setPower(0);
                 }
                 break;
 
