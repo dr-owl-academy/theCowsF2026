@@ -105,11 +105,12 @@ public class Felix_Auton_Test extends OpMode {
                 .build();
         driveToCentre = follower.pathBuilder()
                 .addPath(new BezierLine(TARGET_POSE, CENTRE))
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(-90))
                 .build();
+
         driveToGreen = follower.pathBuilder()
-                .addPath(new BezierLine(TARGET_POSE, CENTRE))
-                .setConstantHeadingInterpolation(Math.toRadians(180))
+                .addPath(new BezierLine(CENTRE, GREEN_BALL))
+                .setConstantHeadingInterpolation(Math.toRadians(-90))
                 .build();
 
 
