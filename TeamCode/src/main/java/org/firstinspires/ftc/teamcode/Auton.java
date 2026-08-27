@@ -135,10 +135,8 @@ public class Auton extends OpMode {
                 break;
 
             case START_Drive_TO_TARGET2:
-                follower.followPath
-                //farex pull my pearl
-            // get me outta here
-            //w1zox ban this guy
+                follower.followPath(driveToTarget2);
+                autoState = AutoState.COMPLETE;
 
             case COMPLETE:
                 break;
