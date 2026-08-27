@@ -22,6 +22,7 @@ public class Auton extends OpMode {
         START_DRIVE_TO_TARGET,
         WAIT_FOR_DRIVE_TO_TARGET,
         START_Drive_TO_TARGET2,
+        WAIT_FOR_DRIVE_TO_TARGET2,
         COMPLETE
     }
 
@@ -97,7 +98,7 @@ public class Auton extends OpMode {
                 .build();
         driveToTarget2 = follower.pathBuilder()
                 .addPath(new BezierLine(TARGET_POSE,TARGET_POSE2))
-                .setConstantHeadingInterpolation( Math.toRadians(180))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
                 .build();
     }
 
@@ -136,8 +137,12 @@ public class Auton extends OpMode {
 
             case START_Drive_TO_TARGET2:
                 follower.followPath(driveToTarget2);
-                autoState = AutoState.COMPLETE;
+                autoState = AutoState.WAIT_FOR_DRIVE_TO_TARGET2;
 
+            case WAIT_FOR_DRIVE_TO_TARGET2:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.COMPLETE;
+                }
             case COMPLETE:
                 break;
         }
