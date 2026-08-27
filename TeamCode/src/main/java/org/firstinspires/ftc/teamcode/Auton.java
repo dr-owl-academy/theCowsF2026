@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
-@Autonomous(name = "Coach Simple Auton")
+@Autonomous(name = "Adrian Simple Auton")
 public class Auton extends OpMode {
 
     private DcMotor testMotor;
