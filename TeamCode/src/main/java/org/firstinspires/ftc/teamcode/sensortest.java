@@ -1,25 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.mechanisms.sensors;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mechanisms.sensors;
-@TeleOp(name = "Adrian sensor test")
-public class sensortest {
+
+@TeleOp(name = "adrian sensor test")
+public class sensortest extends OpMode {
+
     private sensors sensors;
+
     @Override
-    public void init(){
+    public void init() {
         sensors = new sensors(hardwareMap);
     }
+
     @Override
     public void loop() {
-        int presses = sensors.countpresses();
 
-        telemetry.addData("Touch Sensor Press Count", presses);
+        int numberOfPresses = sensors.countpresses();
+
+        telemetry.addData("press counter:", numberOfPresses);
         telemetry.update();
-
     }
-
 }
