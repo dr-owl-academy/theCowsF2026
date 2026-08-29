@@ -100,8 +100,8 @@ public class evan_auton extends OpMode {
                 .build();
         driveToTargetTwo = follower.pathBuilder()
                 .addPath(new BezierLine(TARGET_POSE,TARGET_TWO_POSE))
-                .setConstantHeadingInterpolation(Math.toRadians(0))
-                .build();
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(0))
+        .build();
     }
 
     // Updates the autonomous finite state machine.
