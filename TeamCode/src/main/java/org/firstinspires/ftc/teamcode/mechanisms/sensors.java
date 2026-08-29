@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class sensors {
-    private TouchSensor touchSensor;
+    private final TouchSensor touchSensor;
     private double power;
     private DcMotor testMotor;
     private boolean wasPressed = false;
