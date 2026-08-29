@@ -16,47 +16,40 @@ public class aaron_sensor_test extends OpMode {
 
     @Override
     public void init() {
-        // Look closely here: TouchSensor MUST be mapped to "testsensor"
-        touchSensor = hardwareMap.get(TouchSensor.class, "testsensor");
-
-        // DcMotor MUST be mapped to "testmotor"
-        testMotor = hardwareMap.get(DcMotor.class, "testmotor");
+        touchSensor = hardwareMap.get(TouchSensor.class, "touchsensor");
+        testMotor = hardwareMap.get(DcMotor.class, "testMotor");
     }
 
     @Override
     public void loop() {
-        // Motor control logic via gamepad 1
+        boolean isPressedNow = touchSensor.isPressed();
+
+        // If left bumper is pressed, spin 1
         if (gamepad1.left_bumper) {
             testMotor.setPower(1.0);
-        } else if (gamepad1.right_bumper) {
-            testMotor.setPower(-1.0);
-        } else {
-            testMotor.setPower(0.0); // Stops the motor when neither is pressed
-        }
 
-        // Sensor and counting logic
-        boolean isPressedNow = isPressed();
-        double motorPower = testMotor.getPower();
-
-        // Check for press transition (rising edge)
-        if (isPressedNow && !wasPressed) {
-            if (motorPower > 0) {
+            // If touch sensor is pressed during this, count up
+            if (isPressedNow && !wasPressed) {
                 pressCount++;
-            } else if (motorPower < 0) {
+            }
+        }
+        // If right bumper is pressed, spin -1
+        else if (gamepad1.right_bumper) {
+            testMotor.setPower(-1.0);
+
+            // If touch sensor is pressed during this, count down
+            if (isPressedNow && !wasPressed) {
                 pressCount--;
             }
         }
+        // Otherwise stop the motor
+        else {
+            testMotor.setPower(0.0);
+        }
 
-        wasPressed = isPressedNow;
+        wasPressed = isPressedNow; // Saves the state for the next loop
 
-        // Standard telemetry
-        telemetry.addData("Motor Power", motorPower);
-        telemetry.addData("Touch Sensor Pressed", isPressedNow);
         telemetry.addData("Press Count", pressCount);
         telemetry.update();
-    }
-
-    public boolean isPressed() {
-        return touchSensor != null && touchSensor.isPressed();
     }
 }
