@@ -15,8 +15,8 @@ public class Aiden_sensor_test extends OpMode {
 
     @Override
     public void loop(){
-        int numberOfPresses = sensors.countTouchSensorPresses();
-
+        sensors.updateItemCount(true, false);
+        int numberOfPresses = sensors.getItemCount();
         telemetry.addData("Touch Sensor Press Count", numberOfPresses);
         telemetry.update();
     }
