@@ -24,6 +24,8 @@ public class sensorTestNathan extends OpMode {
     public void loop(){
         int numberOfPresses = sensors.TouchCounter();
 
+        sensors.colorDetector();
+
         if (gamepad1.aWasPressed()){
             testMotor.setPower(1);
         }
@@ -36,7 +38,6 @@ public class sensorTestNathan extends OpMode {
         telemetry.addData("Touch Sensor Count", numberOfPresses);
         telemetry.update();
 
-        // Yellow = lots of red AND lots of green
         if (colorSensor.green() > 0.5 && colorSensor.red() > 0.5) {
             testMotor.setPower(1);
         }
