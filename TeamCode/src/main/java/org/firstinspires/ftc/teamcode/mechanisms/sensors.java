@@ -34,7 +34,7 @@ public class sensors {
     return Counter;
     }
     public void colorDetector(){
-        if (colorSensor.green() > 10500 && colorSensor.red() > 6500 && colorSensor.blue() > 2500 && colorSensor.green() < 13000 && colorSensor.red() < 8000 && colorSensor.blue() < 4000) {
+        if (colorSensor.green() > 9500 && colorSensor.red() > 6000 && colorSensor.blue() > 2000 && colorSensor.green() < 14000 && colorSensor.red() < 8500 && colorSensor.blue() < 4500) {
             testMotor.setPower(1);
         }
         else {
