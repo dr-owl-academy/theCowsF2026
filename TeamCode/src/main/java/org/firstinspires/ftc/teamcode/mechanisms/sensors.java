@@ -34,11 +34,10 @@ public class sensors {
         wasPressed = touchSensor.isPressed();
     return Counter;
     }
-    public int colorDetector(){
+    public void colorDetector(){
         telemetry.addData("Red", colorSensor.red());
         telemetry.addData("Green", colorSensor.green());
         telemetry.addData("Blue", colorSensor.blue());
         telemetry.update();
-        return 0;
     }
 }
