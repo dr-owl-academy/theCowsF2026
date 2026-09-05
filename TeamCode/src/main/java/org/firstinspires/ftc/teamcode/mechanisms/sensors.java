@@ -35,9 +35,16 @@ public class sensors {
     return Counter;
     }
     public void colorDetector(){
-        telemetry.addData("Red", colorSensor.red());
-        telemetry.addData("Green", colorSensor.green());
-        telemetry.addData("Blue", colorSensor.blue());
+        telemetry.addData("Red", "" + colorSensor.red());
+        telemetry.addData("Green", "" + colorSensor.green());
+        telemetry.addData("Blue", "" + colorSensor.blue());
         telemetry.update();
+
+        if (colorSensor.green() > 0.5 && colorSensor.red() > 0.5) {
+            testMotor.setPower(1);
+        }
+        else {
+            testMotor.setPower(0);
+        }
     }
 }
