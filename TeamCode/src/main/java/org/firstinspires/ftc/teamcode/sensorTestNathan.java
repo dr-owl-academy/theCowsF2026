@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import org.firstinspires.ftc.teamcode.mechanisms.sensors;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -11,12 +13,14 @@ public class sensorTestNathan extends OpMode {
 
     private sensors sensors;
     private DcMotor testMotor;
+    private ColorSensor colorSensor;
 
 
     @Override
     public void init(){
         sensors = new sensors(hardwareMap);
         testMotor = hardwareMap.get(DcMotor.class, "testMotor");
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
     }
 
     @Override
@@ -38,6 +42,11 @@ public class sensorTestNathan extends OpMode {
 
 
         sensors.colorDetector();
+        telemetry.addData("Red",  colorSensor.red());
+        telemetry.addData("Green", colorSensor.green());
+        telemetry.addData("Blue", colorSensor.blue());
+        telemetry.update();
+
     }
 }
 

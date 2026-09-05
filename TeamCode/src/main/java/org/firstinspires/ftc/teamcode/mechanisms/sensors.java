@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -35,12 +34,7 @@ public class sensors {
     return Counter;
     }
     public void colorDetector(){
-        telemetry.addData("Red", "" + colorSensor.red());
-        telemetry.addData("Green", "" + colorSensor.green());
-        telemetry.addData("Blue", "" + colorSensor.blue());
-        telemetry.update();
-
-        if (colorSensor.green() > 0.5 && colorSensor.red() > 0.5) {
+        if (colorSensor.green() > 10500 && colorSensor.red() > 6500 && colorSensor.blue() > 2500 && colorSensor.green() < 13000 && colorSensor.red() < 8000 && colorSensor.blue() < 4000) {
             testMotor.setPower(1);
         }
         else {
