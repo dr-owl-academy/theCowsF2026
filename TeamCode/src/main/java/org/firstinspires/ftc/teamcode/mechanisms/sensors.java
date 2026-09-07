@@ -1,64 +1,54 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class sensors {
 
-    private TouchSensor touchSensor;
-    private ColorSensor colorSensor;
+    private TouchSensor touchsensor;
+    private ColorSensor colorsensor;
+    private DcMotor testMotor;
 
 
     private int touchCount = 0;
-    private int amountOfBlue = 0;
-    private int amountOfGreen = 0;
-    private int amountOfRed = 0;
     private boolean wasPressed = false;
 
     public sensors(HardwareMap hardwareMap) {
-        touchSensor = hardwareMap.get(TouchSensor.class, "touchsensor");
-        colorSensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+        touchsensor = hardwareMap.get(TouchSensor.class, "touchsensor");
+        colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
+        testMotor = hardwareMap.get(DcMotor.class,"testMotor");
     }
 
 
-    public int TouchCounter() {
+    public void TouchCounter() {
 
-        boolean isPressed = touchSensor.isPressed();
+        boolean isPressed = touchsensor.isPressed();
+        double power = testMotor.getPower();
 
         if (isPressed && !wasPressed) {
-            touchCount++;
+            if (power == 1){
+                touchCount++;
+            }
+            if (power == -1){
+                touchCount --;
+            }
+
         }
 
         wasPressed = isPressed;
+
+    }
+    public int returntouchcount(){
         return touchCount;
     }
-    public int ColorSensorBlue(){
-        amountOfBlue = colorSensor.blue();
-
-        // returning all the variables from the color sensor
-        return amountOfBlue;
 
 
 
-    }
-    public int ColorSensorGreen(){
-        amountOfGreen = colorSensor.green();
-
-        // returning all the variables from the color sensor
-        return amountOfGreen;
 
 
 
-    }
-    public int ColorSensorRed(){
-        amountOfRed = colorSensor.red();
 
-        // returning all the variables from the color sensor
-        return amountOfRed;
-
-
-
-    }
 
 }

@@ -20,12 +20,6 @@ public class felix_Sensor_Test extends OpMode {
     @Override
     public void loop() {
 
-        sensors.update();
-
-        int numberOfPresses = sensors.TouchCounter();
-
-        telemetry.addData("Touch Count", numberOfPresses);
-        telemetry.update();
     }
 
 
