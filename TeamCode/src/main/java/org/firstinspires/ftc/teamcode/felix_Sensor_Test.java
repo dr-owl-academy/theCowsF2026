@@ -26,6 +26,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.sensors;
                 @Override
                 public void loop() {
                     sensors.TouchCounter();
+                    sensors.colors();
 
 
 
@@ -38,6 +39,9 @@ import org.firstinspires.ftc.teamcode.mechanisms.sensors;
                         testMotor.setPower(0);
                     }
                     telemetry.addData("Touch Count", sensors.returntouchcount());
+                    telemetry.addData("Red:", sensors.returnred());
+                    telemetry.addData("Blue:", sensors.returnblue());
+                    telemetry.addData("Green:", sensors.returngreen());
                     telemetry.update();
     }
 }

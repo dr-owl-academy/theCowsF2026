@@ -14,6 +14,9 @@ public class sensors {
 
     private int touchCount = 0;
     private boolean wasPressed = false;
+    private int amountOfRed = 0;
+    private int amountOfBlue = 0;
+    private int amountOfGreen = 0;
 
     public sensors(HardwareMap hardwareMap) {
         touchsensor = hardwareMap.get(TouchSensor.class, "touchsensor");
@@ -41,7 +44,25 @@ public class sensors {
 
     }
     public int returntouchcount(){
+
         return touchCount;
+    }
+    public void colors(){
+        amountOfRed = colorsensor.red();
+        amountOfGreen = colorsensor.red();
+        amountOfBlue = colorsensor.blue();
+
+
+
+    }
+    public int returnred(){
+        return amountOfRed;
+    }
+    public int returnblue(){
+        return amountOfBlue;
+    }
+    public int returngreen(){
+        return amountOfGreen;
     }
 
 
