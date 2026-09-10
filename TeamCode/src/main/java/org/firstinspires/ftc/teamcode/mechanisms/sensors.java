@@ -17,6 +17,7 @@ public class sensors {
     private int amountOfRed = 0;
     private int amountOfBlue = 0;
     private int amountOfGreen = 0;
+    private boolean wasSeen = false;
 
     public sensors(HardwareMap hardwareMap) {
         touchsensor = hardwareMap.get(TouchSensor.class, "touchsensor");
@@ -25,9 +26,11 @@ public class sensors {
     }
 
 
-    public void TouchCounter() {
+    public void ballCounter() {
 
         boolean isPressed = touchsensor.isPressed();
+        boolean isSeen = colorsensor.red() < 500;
+
         double power = testMotor.getPower();
 
         if (isPressed && !wasPressed) {

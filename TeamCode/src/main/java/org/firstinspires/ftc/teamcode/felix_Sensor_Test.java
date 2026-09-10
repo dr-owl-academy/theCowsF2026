@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.mechanisms.sensors;
 
@@ -25,7 +24,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.sensors;
 
                 @Override
                 public void loop() {
-                    sensors.TouchCounter();
+                    sensors.ballCounter();
                     sensors.colors();
 
 
