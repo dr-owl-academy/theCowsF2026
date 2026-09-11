@@ -25,14 +25,18 @@ public class MotorTest extends OpMode {
 
     @Override
     public void loop() {
+        if (intaking) {
+            motor.setPower(motorSpeed);
+        }
+        if (outtaking) {
+            motor.setPower(-motorSpeed);
+        }
         if (gamepad1.right_bumper) {
             intaking = true;
             outtaking = false;
-            motor.setPower(motorSpeed);
         } else if (gamepad1.left_bumper) {
             intaking = false;
             outtaking = true;
-            motor.setPower(-motorSpeed);
         } else {
             intaking = false;outtaking = false;
             motor.setPower(0.0);

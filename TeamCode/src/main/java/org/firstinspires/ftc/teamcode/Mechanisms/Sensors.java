@@ -11,23 +11,8 @@ public class Sensors {
 
     private boolean previousTouchPressed = false;
     private int itemCount = 0;
-    public boolean seesYellow() {
-        int red = colorSensor.red();
-        int green = colorSensor.green();
-        int blue = colorSensor.blue();
 
-        return (red > blue) && (green > blue);
-    }
-
-    public boolean seesGreen(){
-        int red = colorSensor.red();
-        int green = colorSensor.green();
-        int blue = colorSensor.blue();
-
-        return (green > red) && (green > blue);
-    }
-
-
+    public boolean seesGreen = (colorSensor.green() > 9500 && colorSensor.green() < 14000 && colorSensor.red() > 6000 && colorSensor.red() < 8500 && colorSensor.blue() > 2000 && colorSensor.blue() < 4500);
     public Sensors(HardwareMap hardwareMap) {
         touchSensor =
                 hardwareMap.get(TouchSensor.class, "touchSensor");
@@ -49,19 +34,13 @@ public class Sensors {
                 }
             }
         }
-        if (seesGreen()) {
-            outtaking = true;  // Outtake
-        }
-        else if (seesYellow()) {
-            
-            intaking = true; // intake
-        }
-        else {
+        if (seesGreen) {
+            intaking = true;  // intake
 
         }
-
         previousTouchPressed = touchPressed;
     }
+
 
     public int getItemCount() {
         return itemCount;
