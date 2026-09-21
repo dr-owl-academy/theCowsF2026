@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.sensors;
                 @Override
                 public void loop() {
                     sensors.ballCounter();
-                    sensors.colors();
+                    sensors.senseColor();
 
 
 

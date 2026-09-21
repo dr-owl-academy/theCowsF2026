@@ -18,8 +18,7 @@ public class sensors {
     private int amountOfBlue = 0;
     private int amountOfGreen = 0;
 
-    // Remembers if Pollen was detected
-    private boolean wasSeen = false;
+
 
 
     public sensors(HardwareMap hardwareMap) {
@@ -28,34 +27,25 @@ public class sensors {
         colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
         testMotor = hardwareMap.get(DcMotor.class, "testMotor");
     }
-
+/*
 
     public void ballCounter() {
 
         boolean isPressed = touchsensor.isPressed();
 
         // Pollen color range
-        boolean isSeen =
-                colorsensor.green() > 9500 &&
-                        colorsensor.red() > 6000 &&
-                        colorsensor.blue() > 2000 &&
-                        colorsensor.green() < 14000 &&
-                        colorsensor.red() < 8500 &&
-                        colorsensor.blue() < 4500;
+
 
         double power = testMotor.getPower();
 
 
         // Remember that Pollen was seen
-        if (isSeen) {
-            wasSeen = true;
-        }
 
 
         // Only count if:
         // 1. Pollen was seen FIRST
         // 2. The touch sensor is newly pressed
-        if (wasSeen && isPressed && !wasPressed) {
+        if (isPressed && !wasPressed) {
 
             // Intake
             if (power > 0.5) {
@@ -68,7 +58,7 @@ public class sensors {
             }
 
             // Reset so the next Pollen can be counted
-            wasSeen = false;
+
         }
 
 
@@ -81,9 +71,10 @@ public class sensors {
 
         return touchCount;
     }
+ */
 
 
-    public void colors() {
+    public void senseColor() {
 
         amountOfRed = colorsensor.red();
         amountOfGreen = colorsensor.green();
@@ -91,10 +82,7 @@ public class sensors {
     }
 
 
-    public int returnred() {
 
-        return amountOfRed;
-    }
 
 
     public int returnblue() {
@@ -106,5 +94,9 @@ public class sensors {
     public int returngreen() {
 
         return amountOfGreen;
+    }
+    public int returnred() {
+
+        return amountOfRed  ;
     }
 }
