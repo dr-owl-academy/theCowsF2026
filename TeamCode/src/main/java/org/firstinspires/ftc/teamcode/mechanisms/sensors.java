@@ -17,7 +17,13 @@ public class sensors {
     private int amountOfRed = 0;
     private int amountOfBlue = 0;
     private int amountOfGreen = 0;
-
+    private int pollenCount = 0;
+    private int redNectarCount = 0;
+    private int blueNectarCount = 0;
+    private boolean pollenSensed = false;
+    private boolean redNectarSensed = false;
+    private boolean blueNectarSensed = false;
+    double power = testMotor.getPower();
 
 
 
@@ -27,7 +33,7 @@ public class sensors {
         colorsensor = hardwareMap.get(ColorSensor.class, "colorsensor");
         testMotor = hardwareMap.get(DcMotor.class, "testMotor");
     }
-/*
+
 
     public void ballCounter() {
 
@@ -36,7 +42,7 @@ public class sensors {
         // Pollen color range
 
 
-        double power = testMotor.getPower();
+
 
 
         // Remember that Pollen was seen
@@ -71,14 +77,20 @@ public class sensors {
 
         return touchCount;
     }
- */
 
 
-    public void senseColor() {
+
+    public boolean senseColor() {
 
         amountOfRed = colorsensor.red();
         amountOfGreen = colorsensor.green();
         amountOfBlue = colorsensor.blue();
+        boolean pollenSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
+        boolean redNectarSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
+        boolean blueNectarSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
+       return pollenSensed;
+
+
     }
 
 
@@ -99,4 +111,13 @@ public class sensors {
 
         return amountOfRed  ;
     }
+    public boolean returRedNectar(){
+        return redNectarSensed ;
+
+    }
+    public boolean returBlueNectar(){
+        return blueNectarSensed ;
+
+    }
+
 }
