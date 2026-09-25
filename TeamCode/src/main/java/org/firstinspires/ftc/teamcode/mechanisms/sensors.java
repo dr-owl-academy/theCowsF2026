@@ -17,14 +17,14 @@ public class sensors {
     private int amountOfRed = 0;
     private int amountOfBlue = 0;
     private int amountOfGreen = 0;
+
     private int pollenCount = 0;
     private int redNectarCount = 0;
     private int blueNectarCount = 0;
+
     private boolean pollenSensed = false;
     private boolean redNectarSensed = false;
     private boolean blueNectarSensed = false;
-    double power = testMotor.getPower();
-
 
 
     public sensors(HardwareMap hardwareMap) {
@@ -39,18 +39,8 @@ public class sensors {
 
         boolean isPressed = touchsensor.isPressed();
 
-        // Pollen color range
+        double power = testMotor.getPower();
 
-
-
-
-
-        // Remember that Pollen was seen
-
-
-        // Only count if:
-        // 1. Pollen was seen FIRST
-        // 2. The touch sensor is newly pressed
         if (isPressed && !wasPressed) {
 
             // Intake
@@ -62,11 +52,7 @@ public class sensors {
             else if (power < -0.5) {
                 touchCount--;
             }
-
-            // Reset so the next Pollen can be counted
-
         }
-
 
         // Remember the button state
         wasPressed = isPressed;
@@ -74,50 +60,77 @@ public class sensors {
 
 
     public int returntouchcount() {
-
         return touchCount;
     }
 
 
-
     public boolean senseColor() {
 
+        // Get current color sensor readings
         amountOfRed = colorsensor.red();
         amountOfGreen = colorsensor.green();
         amountOfBlue = colorsensor.blue();
-        boolean pollenSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
-        boolean redNectarSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
-        boolean blueNectarSensed = amountOfBlue >0  && amountOfGreen >0  && amountOfRed >0  && amountOfBlue <2  && amountOfGreen <3  && amountOfRed <2 ;
-       return pollenSensed;
 
 
+        // Pollen
+        pollenSensed = amountOfGreen > 9500
+                        && amountOfRed > 6000
+                        && amountOfBlue > 2000
+                        && amountOfGreen < 14000
+                        && amountOfRed < 8500
+                        && amountOfBlue < 4500;
+
+
+        // Red Nectar
+        redNectarSensed = amountOfBlue > 50
+                && amountOfGreen > 2000
+                && amountOfRed > 2800
+                && amountOfBlue < 1500
+                && amountOfGreen < 3200
+                && amountOfRed < 5600;
+
+
+        // Blue Nectar
+        blueNectarSensed = amountOfBlue > 4900
+                && amountOfGreen > 500
+                && amountOfRed > 100
+                && amountOfBlue < 6600
+                && amountOfGreen < 1900
+                && amountOfRed < 1300;
+
+
+        // Return whether pollen was detected
+        return pollenSensed;
     }
 
 
-
-
-
     public int returnblue() {
-
         return amountOfBlue;
     }
 
 
     public int returngreen() {
-
         return amountOfGreen;
     }
+
+
     public int returnred() {
-
-        return amountOfRed  ;
+        return amountOfRed;
     }
-    public boolean returRedNectar(){
-        return redNectarSensed ;
 
+
+    public boolean returnPollen() {
+        return pollenSensed;
     }
-    public boolean returBlueNectar(){
-        return blueNectarSensed ;
 
+
+    public boolean returRedNectar() {
+        return redNectarSensed;
+    }
+
+
+    public boolean returBlueNectar() {
+        return blueNectarSensed;
     }
 
 }
