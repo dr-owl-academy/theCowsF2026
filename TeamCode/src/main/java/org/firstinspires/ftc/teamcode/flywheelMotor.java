@@ -3,18 +3,18 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 @TeleOp(name="flywheeltest")
 public class flywheelMotor extends OpMode {
-    private DcMotorEx flywheelMotor;
+    private DcMotor flywheelMotor;
     private double power = 0;
-    private double maxVelocity = 1000; // Encoder ticks per second
 
     @Override
     public void init() {
-        flywheelMotor = hardwareMap.get(DcMotorEx.class, "flywheelMotor");
-        flywheelMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        flywheelMotor = hardwareMap.get(DcMotor.class, "flywheelMotor");
+        flywheelMotor.setDirection(DcMotor.Direction.REVERSE);
+        flywheelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        flywheelMotor.setPower(0);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class flywheelMotor extends OpMode {
             }
         }
 
-        flywheelMotor.setVelocity(power * maxVelocity);
+        flywheelMotor.setPower(power);
     }
 }
