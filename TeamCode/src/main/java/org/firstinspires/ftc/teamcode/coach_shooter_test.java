@@ -85,10 +85,10 @@ public class coach_shooter_test extends OpMode {
 
         double actualRPM = flywheel.getVelocity() * 60.0 / TICKS_PER_REVOLUTION;
 
-        telemetry.addData("Target speed (RPM)", "%.0f", targetRPM);
-        telemetry.addData("Actual speed (RPM)", "%.0f", actualRPM);
-        telemetry.addData("Speed error (RPM)", "%.0f", targetRPM - actualRPM);
-        telemetry.addData("Hood position (commanded)", "%.2f", hoodServo.getPosition());
+        telemetry.addData("Target speed (RPM)", Math.round(targetRPM));
+        telemetry.addData("Actual speed (RPM)", Math.round(actualRPM));
+        telemetry.addData("Speed error (RPM)", Math.round(targetRPM - actualRPM));
+        telemetry.addData("Hood position", Math.round(hoodServo.getPosition() * 100.0) / 100.0);
         telemetry.update();
 
         previousUp = gamepad1.dpad_up;
