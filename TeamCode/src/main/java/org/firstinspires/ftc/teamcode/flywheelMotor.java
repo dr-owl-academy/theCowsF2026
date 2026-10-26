@@ -14,8 +14,7 @@ public class flywheelMotor extends OpMode {
 
     @Override
     public void init() {
-        flywheelMotor = hardwareMap.get(DcMotor.class, "testMotor");;
-        "]"
+        flywheelMotor = hardwareMap.get(DcMotor.class, "testMotor");
         flywheelMotor.setDirection(DcMotor.Direction.REVERSE);
         flywheelMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         flywheelMotor.setPower(0);
