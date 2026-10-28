@@ -78,9 +78,7 @@ public class autonRedPath1 extends OpMode {
     private static final Pose FINAL_POSE =
             new Pose(11, 95, Math.toRadians(175));
 
-    private long stateStartTime;
-    private static final long TURN_TIME = 500;
-    private static final long MOTOR_RUN_TIME = 1000;
+
 
     @Override
     public void init() {
@@ -172,15 +170,13 @@ public class autonRedPath1 extends OpMode {
 
             case SHOOT_THE_BALLS:
                 testMotor.setPower(1.0);
-                stateStartTime = System.currentTimeMillis();
                 autoState = AutoState.WAIT_FOR_SHOOT;
                 break;
 
             case WAIT_FOR_SHOOT:
-                if (System.currentTimeMillis() - stateStartTime >= MOTOR_RUN_TIME) {
                     testMotor.setPower(0);
                     autoState = AutoState.DRIVE_TO_BALLS_PART1;
-                }
+
                 break;
 
             case DRIVE_TO_BALLS_PART1:
@@ -207,15 +203,13 @@ public class autonRedPath1 extends OpMode {
 
             case INTAKE:
                 testMotor.setPower(1.0);
-                stateStartTime = System.currentTimeMillis();
                 autoState = AutoState.WAIT_FOR_INTAKE1;
                 break;
 
             case WAIT_FOR_INTAKE1:
-                if (System.currentTimeMillis() - stateStartTime >= MOTOR_RUN_TIME) {
                     testMotor.setPower(0);
                     autoState = AutoState.DRIVE_BACK_TO_SHOT;
-                }
+
                 break;
 
             case DRIVE_BACK_TO_SHOT:
@@ -230,27 +224,25 @@ public class autonRedPath1 extends OpMode {
                 break;
 
             case TURN_TO_ZERO:
-                stateStartTime = System.currentTimeMillis();
+                follower.turnTo(Math.toRadians(0));
                 autoState = AutoState.WAIT_FOR_TURN;
                 break;
 
             case WAIT_FOR_TURN:
-                if (System.currentTimeMillis() - stateStartTime >= TURN_TIME) {
+                if (!follower.isBusy()) {
                     autoState = AutoState.SHOOT_THE_BALLS2;
                 }
                 break;
 
             case SHOOT_THE_BALLS2:
                 testMotor.setPower(1.0);
-                stateStartTime = System.currentTimeMillis();
                 autoState = AutoState.WAIT_FOR_SHOOT2;
                 break;
 
             case WAIT_FOR_SHOOT2:
-                if (System.currentTimeMillis() - stateStartTime >= MOTOR_RUN_TIME) {
                     testMotor.setPower(0);
                     autoState = AutoState.DRIVE_TO_FLOWER1;
-                }
+
                 break;
 
             case DRIVE_TO_FLOWER1:
@@ -277,15 +269,12 @@ public class autonRedPath1 extends OpMode {
 
             case INTAKE2:
                 testMotor.setPower(1.0);
-                stateStartTime = System.currentTimeMillis();
                 autoState = AutoState.WAIT_FOR_INTAKE2;
                 break;
 
             case WAIT_FOR_INTAKE2:
-                if (System.currentTimeMillis() - stateStartTime >= MOTOR_RUN_TIME) {
                     testMotor.setPower(0);
                     autoState = AutoState.DRIVE_BACK_TO_SHOT2;
-                }
                 break;
 
             case DRIVE_BACK_TO_SHOT2:
@@ -301,15 +290,12 @@ public class autonRedPath1 extends OpMode {
 
             case SHOOT_THE_BALLS3:
                 testMotor.setPower(1.0);
-                stateStartTime = System.currentTimeMillis();
                 autoState = AutoState.WAIT_FOR_SHOOT3;
                 break;
 
             case WAIT_FOR_SHOOT3:
-                if (System.currentTimeMillis() - stateStartTime >= MOTOR_RUN_TIME) {
                     testMotor.setPower(0);
                     autoState = AutoState.DRIVE_TO_FINAL1;
-                }
                 break;
 
             case DRIVE_TO_FINAL1:
