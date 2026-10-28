@@ -17,7 +17,8 @@ public class autonRedPath2 extends OpMode {
     private DcMotor testMotor;
 
     private enum AutoState {
-
+        SHOOT_THE_BALLS,
+        WAIT_FOR_SHOOT,
         COMPLETE
     }
 
@@ -32,7 +33,7 @@ public class autonRedPath2 extends OpMode {
     private PathChain driveToFinal1;
     private PathChain driveToFinal2;
 
-    private AutoState autoState = AutoState.;
+    private AutoState autoState = AutoState.SHOOT_THE_BALLS;
 
     private static final Pose START_POSE =
             new Pose(48, 9, Math.toRadians(90));
