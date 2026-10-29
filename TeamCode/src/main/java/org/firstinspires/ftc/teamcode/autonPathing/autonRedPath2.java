@@ -20,7 +20,15 @@ public class autonRedPath2 extends OpMode {
     private enum AutoState {
         SHOOT_THE_BALLS,
         WAIT_FOR_SHOOT,
-        COMPLETE
+        DRIVE_TO_FLOWER1,
+        WAIT_FOR_PATH1,
+        DRIVE_TO_FLOWER2,
+        WAIT_FOR_PATH2,
+        INTAKE_BALLS_FLOWER,
+        WAIT_FOR_INTAKE,
+
+
+        COMPLETE,
     }
 
     private Follower follower;
