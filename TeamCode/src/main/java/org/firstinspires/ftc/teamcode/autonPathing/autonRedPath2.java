@@ -33,13 +33,14 @@ public class autonRedPath2 extends OpMode {
     private PathChain drivetoPreShot;
     private PathChain driveToShot2;
     private PathChain drivetoPreFinal;
+    private PathChain drivetoFinal;
 
 
     private AutoState autoState = AutoState.SHOOT_THE_BALLS;
 
     private static final Pose START_POSE =
             new Pose(48, 9, Math.toRadians(90));
-    private static final Pose FLOWER_POST1 =
+    private static final Pose FLOWER_POSE1 =
             new Pose(22.48, 46.69, Math.toRadians(180));
     private static final Pose FLOWER_POSE2 =
             new Pose(10.46,47.29,Math.toRadians(180));
@@ -105,6 +106,15 @@ public class autonRedPath2 extends OpMode {
     }
 
     private void buildPath() {
+        driveToFlower1 = follower.pathBuilder()
+                .addPath(new BezierLine(START_POSE,FLOWER_POSE1))
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+                .build();
+        driveToFlower2 = follower.pathBuilder()
+                .addPath(new BezierLine(FLOWER_POSE1,FLOWER_POSE2))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
+                .build();
+
 
     }
 
