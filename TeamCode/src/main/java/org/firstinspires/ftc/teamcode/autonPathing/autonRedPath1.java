@@ -66,9 +66,9 @@ public class autonRedPath1 extends OpMode {
     private static final Pose SHOOT_POSE =
             new Pose(56, 24, Math.toRadians(90));
     private static final Pose BALLS_POSE1 =
-            new Pose(9.892706872370269, 28.975455820476874, Math.toRadians(270));
+            new Pose(10.892706872370269, 28.975455820476874, Math.toRadians(270));
     private static final Pose BALLS_POSE2 =
-            new Pose(8.83660589060309, 8.707573632538564, Math.toRadians(270));
+            new Pose(10, 10, Math.toRadians(270));
     private static final Pose FLOWER_POSE1 =
             new Pose(18.97124824684433, 45.53786816269285, Math.toRadians(90));
     private static final Pose FLOWER_POSE2 =
