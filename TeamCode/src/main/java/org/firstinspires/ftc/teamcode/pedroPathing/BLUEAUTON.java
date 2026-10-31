@@ -21,9 +21,9 @@ public class BLUEAUTON extends OpMode {
             pose(83.5, 132.615, 270), // 0: preload
             pose(128, 94.33, 0),     // 1: right flower
             pose(83.5, 31, 90),      // 2: second cell
-            pose(94.33, 13.5, 270),  // 3: bottom flower
-            pose(83.5, 21.5, 90),    // 4: final shot
-            pose(130, 35, 90)        // 5: park
+            pose(94.33, 13.5, 270),
+            pose(83.5, 21.5, 90),
+            pose(130, 35, 90)
     };
 
     private final double[] pauses = {3, 2, 2, 2, 3, 0};
