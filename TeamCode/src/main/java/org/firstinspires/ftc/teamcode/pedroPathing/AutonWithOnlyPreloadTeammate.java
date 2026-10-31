@@ -1,4 +1,4 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-public class AutonWithOnlyPreloadTeammat {
+public class AutonWithOnlyPreloadTeammate {
 }
