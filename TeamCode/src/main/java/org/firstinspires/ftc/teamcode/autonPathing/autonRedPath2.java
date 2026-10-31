@@ -82,10 +82,10 @@ public class autonRedPath2 extends OpMode {
             new Pose(56.12, 17.98, Math.toRadians(90));
 
     private static final Pose ALMOST_FINAL_POST =
-            new Pose(48, 17.98, Math.toRadians(167));
+            new Pose(20.5, 50.82, Math.toRadians(167));
 
     private static final Pose FINAL_POSE =
-            new Pose(36, 17.98, Math.toRadians(167));
+            new Pose(11.08, 95.08, Math.toRadians(167));
 
     @Override
     public void init() {

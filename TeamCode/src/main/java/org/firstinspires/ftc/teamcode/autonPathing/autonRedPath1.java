@@ -123,6 +123,7 @@ public class autonRedPath1 extends OpMode {
 
     private void buildPath() {
         driveToBalls1 = follower.pathBuilder()
+
                 .addPath(new BezierLine(START_POSE, BALLS_POSE1))
                 .setLinearHeadingInterpolation(
                         Math.toRadians(90), Math.toRadians(270))
@@ -180,6 +181,7 @@ public class autonRedPath1 extends OpMode {
                 break;
 
             case DRIVE_TO_BALLS_PART1:
+                follower.setMaxPower(0.25);
                 follower.followPath(driveToBalls1, true);
                 autoState = AutoState.WAIT_FOR_PATH1;
                 break;
@@ -246,6 +248,7 @@ public class autonRedPath1 extends OpMode {
                 break;
 
             case DRIVE_TO_FLOWER1:
+                follower.setMaxPower(0.5);
                 follower.followPath(driveToFlower1, true);
                 autoState = AutoState.WAIT_FOR_PATH4;
                 break;
