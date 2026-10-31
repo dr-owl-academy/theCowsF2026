@@ -13,7 +13,7 @@ public class BLUEAUTON extends OpMode {
     private Follower follower;
     private PathChain route;
 
-    private final Pose startPose = pose(83.5, 135.466, 270);
+    private final Pose startPose = pose(96, 133, 270);
     private final Pose rightFlower = pose(128, 94.33, 0);
     private final Pose exitPose = pose(112, 31, 90);
     private final Pose secondCell = pose(83.5, 31, 90);
