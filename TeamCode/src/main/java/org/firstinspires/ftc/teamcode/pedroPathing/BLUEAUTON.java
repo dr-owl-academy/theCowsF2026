@@ -29,7 +29,7 @@ public class BLUEAUTON extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.6);
 
         route = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, rightFlower))
