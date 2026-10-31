@@ -16,6 +16,10 @@ public class BlueAuton extends OpMode {
     private enum AutoState {
         SHOOT,
         WAIT_FOR_SHOOT,
+        DRIVE_TO_PREFLOWER1,
+        WAIT_FOR_PATH,
+        DRIVE_TO_PREFLOWER2,
+        WAIT_FOR_PATH0,
         DRIVE_TO_FLOWER,
         WAIT_FOR_PATH1,
         DRIVE_TO_SHOT,
@@ -44,8 +48,12 @@ public class BlueAuton extends OpMode {
 
     private static final Pose START_POSE =
             new Pose(96, 133, Math.toRadians(270));
+    private static final Pose PRE_FLOWER1 =
+            new Pose(110.91, 112.74, Math.toRadians(270));
+    private static final Pose PRE_FLOWER2 =
+            new Pose(111.28, 94.26, Math.toRadians(270));
     private static final Pose FLOWER_POSE1 =
-            new Pose(128, 94.33, Math.toRadians(0));
+            new Pose(131.51, 94.35, Math.toRadians(0));
     private static final Pose PRESHOOT_POSE1 =
             new Pose(112, 31, Math.toRadians(90));
     private static final Pose SHOOT_POSE =
@@ -97,12 +105,20 @@ public class BlueAuton extends OpMode {
     }
 
     private void buildPath() {
-        driveToFlower1 = follower.pathBuilder()
-                .addPath(new BezierLine(START_POSE, FLOWER_POSE1))
+        driveToPreFlower1 = follower.pathBuilder()
+                .addPath(new BezierLine(START_POSE, PRE_FLOWER1))
                 .setLinearHeadingInterpolation(
                         Math.toRadians(270),
                         Math.toRadians(0)
                 )
+                .build();
+        driveToPreFlower2 = follower.pathBuilder()
+                .addPath(new BezierLine(PRE_FLOWER1,PRE_FLOWER2))
+                .setConstantHeadingInterpolation(Math.toRadians(0))
+                .build();
+        driveToFlower1 = follower.pathBuilder()
+                .addPath(new BezierLine(PRE_FLOWER1,FLOWER_POSE1))
+                .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
         driveToPreshoot = follower.pathBuilder()
