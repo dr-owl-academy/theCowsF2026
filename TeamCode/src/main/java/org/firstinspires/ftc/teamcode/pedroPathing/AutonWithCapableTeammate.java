@@ -13,10 +13,13 @@ public class AutonWithCapableTeammate extends OpMode {
     private Follower follower;
     private PathChain route;
 
-    private final Pose startPose = pose(83.5, 132.615, 270);
-    private final Pose rightFlower = pose(128, 94.33, 0);
-    private final Pose exitPose = pose(112, 31, 90);
-    private final Pose shootingPose = pose(83.5, 31, 90);
+    private final Pose startPose = pose(83.5, 135.466, 270);
+    private final Pose northTransit = pose(112, 120, 270);
+    private final Pose southTransit = pose(112, 31, 90);
+    private final Pose southShot = pose(83.5, 31, 90);
+    private final Pose bottomFlower = pose(94.33, 13.5, 270);
+    private final Pose northShot = pose(83.5, 132.615, 270);
+    private final Pose releasedPollenSearchEstimate = pose(83.5, 108, 270);
     private final Pose parkPose = pose(130, 35, 90);
 
     private static Pose pose(double x, double y, double degrees) {
@@ -30,20 +33,57 @@ public class AutonWithCapableTeammate extends OpMode {
         follower.setMaxPower(0.3);
 
         route = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, rightFlower))
+                .addPath(new BezierLine(startPose, northTransit))
+                .setConstantHeadingInterpolation(startPose.getHeading())
+
+                .addPath(new BezierLine(northTransit, southTransit))
                 .setLinearHeadingInterpolation(
-                        startPose.getHeading(),
-                        rightFlower.getHeading()
+                        northTransit.getHeading(),
+                        southTransit.getHeading()
                 )
-                .addPath(new BezierLine(rightFlower, exitPose))
+
+                .addPath(new BezierLine(southTransit, southShot))
+                .setConstantHeadingInterpolation(southShot.getHeading())
+
+                .addPath(new BezierLine(southShot, bottomFlower))
                 .setLinearHeadingInterpolation(
-                        rightFlower.getHeading(),
-                        exitPose.getHeading()
+                        southShot.getHeading(),
+                        bottomFlower.getHeading()
                 )
-                .addPath(new BezierLine(exitPose, shootingPose))
-                .setConstantHeadingInterpolation(shootingPose.getHeading())
-                .addPath(new BezierLine(shootingPose, parkPose))
+
+                .addPath(new BezierLine(bottomFlower, southTransit))
+                .setLinearHeadingInterpolation(
+                        bottomFlower.getHeading(),
+                        southTransit.getHeading()
+                )
+
+                .addPath(new BezierLine(southTransit, northTransit))
+                .setLinearHeadingInterpolation(
+                        southTransit.getHeading(),
+                        northTransit.getHeading()
+                )
+
+                .addPath(new BezierLine(northTransit, northShot))
+                .setConstantHeadingInterpolation(northShot.getHeading())
+
+                .addPath(new BezierLine(northShot, releasedPollenSearchEstimate))
+                .setConstantHeadingInterpolation(northShot.getHeading())
+
+                .addPath(new BezierLine(releasedPollenSearchEstimate, northTransit))
+                .setConstantHeadingInterpolation(northTransit.getHeading())
+
+                .addPath(new BezierLine(northTransit, southTransit))
+                .setLinearHeadingInterpolation(
+                        northTransit.getHeading(),
+                        southTransit.getHeading()
+                )
+
+                .addPath(new BezierLine(southTransit, southShot))
+                .setConstantHeadingInterpolation(southShot.getHeading())
+
+                .addPath(new BezierLine(southShot, parkPose))
                 .setConstantHeadingInterpolation(parkPose.getHeading())
+
                 .build();
 
         telemetry.addLine("Collecting teammate route ready");
