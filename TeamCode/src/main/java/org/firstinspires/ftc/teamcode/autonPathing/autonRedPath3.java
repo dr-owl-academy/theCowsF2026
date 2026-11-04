@@ -72,17 +72,13 @@ public class autonRedPath3 extends OpMode {
     private static final Pose OTHERSIDEPOSE =
             new Pose(26.51, 115.91, Math.toRadians(270));
 
-    private static final Pose PRE_SHOT2 =
-            new Pose(38.65, 18.31, Math.toRadians(90));
+    private static final Pose IMPORTANTPOSE =
+            new Pose(47.93, 115.53, Math.toRadians(90));
 
-    private static final Pose SHOT_POSE2 =
-            new Pose(56.12, 17.98, Math.toRadians(90));
-
-    private static final Pose ALMOST_FINAL_POST =
-            new Pose(20.5, 50.82, Math.toRadians(167));
-
+    private static final Pose FLOWER2POSE =
+            new Pose(46.57, 132.1, Math.toRadians(270));
     private static final Pose FINAL_POSE =
-            new Pose(11.08, 95.08, Math.toRadians(167));
+            new Pose(9.79, 118.16, Math.toRadians(180));
 
     @Override
     public void init() {
