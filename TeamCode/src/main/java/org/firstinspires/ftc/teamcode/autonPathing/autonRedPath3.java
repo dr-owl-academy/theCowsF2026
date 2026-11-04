@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.autonPathing;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -45,14 +46,13 @@ public class autonRedPath3 extends OpMode {
 
     private Follower follower;
 
+    private PathChain driveToPreFlower1;
     private PathChain driveToFlower1;
+    private PathChain path3;
+    private PathChain driveToOtherSide;
+    private PathChain driveToImportantSpot;
     private PathChain driveToFlower2;
-    private PathChain driveToShot1;
-    private PathChain driveToNectar1;
-    private PathChain driveToNectar2;
-    private PathChain driveToPreShot;
-    private PathChain driveToShot2;
-    private PathChain driveToPreFinal;
+    private PathChain driveBackToImportantSpot;
     private PathChain driveToFinal;
 
     private AutoState autoState = AutoState.SHOOT_THE_BALLS;
@@ -117,50 +117,18 @@ public class autonRedPath3 extends OpMode {
     }
 
     private void buildPath() {
-        driveToFlower1 = follower.pathBuilder()
-                .addPath(new BezierLine(START_POSE, FLOWER_POSE1))
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+        driveToPreFlower1 = follower.pathBuilder()
+                .addPath(new BezierLine(START_POSE, PREFLOWER_POSE1))
+                .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
-
-        driveToFlower2 = follower.pathBuilder()
-                .addPath(new BezierLine(FLOWER_POSE1, FLOWER_POSE2))
+        driveToPreFlower1 = follower.pathBuilder()
+                .addPath(new BezierLine(START_POSE, PREFLOWER_POSE1))
                 .setConstantHeadingInterpolation(Math.toRadians(180))
                 .build();
 
-        driveToShot1 = follower.pathBuilder()
-                .addPath(new BezierLine(FLOWER_POSE2, SHOT_POSE1))
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(270))
-                .build();
 
-        driveToNectar1 = follower.pathBuilder()
-                .addPath(new BezierLine(SHOT_POSE1, PRENECTAR_INTAKE_POSE))
-                .setConstantHeadingInterpolation(Math.toRadians(270))
-                .build();
 
-        driveToNectar2 = follower.pathBuilder()
-                .addPath(new BezierLine(PRENECTAR_INTAKE_POSE, NECTAR_INTAKE_POSE))
-                .setConstantHeadingInterpolation(Math.toRadians(270))
-                .build();
 
-        driveToPreShot = follower.pathBuilder()
-                .addPath(new BezierLine(NECTAR_INTAKE_POSE, PRE_SHOT2))
-                .setLinearHeadingInterpolation(Math.toRadians(270), Math.toRadians(90))
-                .build();
-
-        driveToShot2 = follower.pathBuilder()
-                .addPath(new BezierLine(PRE_SHOT2, SHOT_POSE2))
-                .setConstantHeadingInterpolation(Math.toRadians(90))
-                .build();
-
-        driveToPreFinal = follower.pathBuilder()
-                .addPath(new BezierLine(SHOT_POSE2, ALMOST_FINAL_POST))
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(167))
-                .build();
-
-        driveToFinal = follower.pathBuilder()
-                .addPath(new BezierLine(ALMOST_FINAL_POST, FINAL_POSE))
-                .setConstantHeadingInterpolation(Math.toRadians(167))
-                .build();
     }
 
     private void autonomousPathUpdate() {
