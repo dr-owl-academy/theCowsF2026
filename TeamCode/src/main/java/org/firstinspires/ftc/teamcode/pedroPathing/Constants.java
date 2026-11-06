@@ -31,8 +31,8 @@ public class Constants {
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .hardwareMapName("pinpoint")
             .distanceUnit(DistanceUnit.INCH)
-            .forwardPodY(0)
-            .strafePodX(0)
+            .forwardPodY(-4.27314645669)
+            .strafePodX(-7.5339448819)
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);

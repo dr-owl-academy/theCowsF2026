@@ -37,6 +37,8 @@ public class BlueAuton extends OpMode {
 
     private Follower follower;
 
+    private PathChain driveToPreFlower1;
+    private PathChain driveToPreFlower2;
     private PathChain driveToFlower1;
     private PathChain driveToPreshoot;
     private PathChain driveToShot;
@@ -112,12 +114,14 @@ public class BlueAuton extends OpMode {
                         Math.toRadians(0)
                 )
                 .build();
+
         driveToPreFlower2 = follower.pathBuilder()
-                .addPath(new BezierLine(PRE_FLOWER1,PRE_FLOWER2))
+                .addPath(new BezierLine(PRE_FLOWER1, PRE_FLOWER2))
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
+
         driveToFlower1 = follower.pathBuilder()
-                .addPath(new BezierLine(PRE_FLOWER1,FLOWER_POSE1))
+                .addPath(new BezierLine(PRE_FLOWER2, FLOWER_POSE1))
                 .setConstantHeadingInterpolation(Math.toRadians(0))
                 .build();
 
@@ -165,7 +169,29 @@ public class BlueAuton extends OpMode {
 
             case WAIT_FOR_SHOOT:
                 // Placeholder: no shooting completion condition defined.
-                autoState = AutoState.DRIVE_TO_FLOWER;
+                autoState = AutoState.DRIVE_TO_PREFLOWER1;
+                break;
+
+            case DRIVE_TO_PREFLOWER1:
+                follower.followPath(driveToPreFlower1);
+                autoState = AutoState.WAIT_FOR_PATH;
+                break;
+
+            case WAIT_FOR_PATH:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.DRIVE_TO_PREFLOWER2;
+                }
+                break;
+
+            case DRIVE_TO_PREFLOWER2:
+                follower.followPath(driveToPreFlower2);
+                autoState = AutoState.WAIT_FOR_PATH0;
+                break;
+
+            case WAIT_FOR_PATH0:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.DRIVE_TO_FLOWER;
+                }
                 break;
 
             case DRIVE_TO_FLOWER:
