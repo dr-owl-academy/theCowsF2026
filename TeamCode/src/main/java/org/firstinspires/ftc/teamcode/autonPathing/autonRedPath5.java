@@ -55,7 +55,7 @@ public class autonRedPath5 extends OpMode {
     private AutoState autoState = AutoState.SHOOT_THE_BALLS;
 
     private static final Pose START_POSE =
-            new Pose(24, 132.56376334986388, Math.toRadians(270));
+            new Pose(61.667192206325296, 132.8032782170348, Math.toRadians(270));
 
     private static final Pose PRESHOT_POSE1 =
             new Pose(22.83, 114.34, Math.toRadians(270));

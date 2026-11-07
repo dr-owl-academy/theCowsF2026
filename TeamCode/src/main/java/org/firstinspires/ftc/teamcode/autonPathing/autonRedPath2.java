@@ -73,7 +73,7 @@ public class autonRedPath2 extends OpMode {
             new Pose(9.13, 126.56, Math.toRadians(270));
 
     private static final Pose NECTAR_INTAKE_POSE =
-            new Pose(8.9, 103.8, Math.toRadians(270));
+            new Pose(9.9, 103.8, Math.toRadians(270));
 
     private static final Pose PRE_SHOT2 =
             new Pose(38.65, 18.31, Math.toRadians(90));
