@@ -55,13 +55,13 @@ public class BlueAuton extends OpMode {
     private static final Pose PRE_FLOWER2 =
             new Pose(111.28, 94.26, Math.toRadians(270));
     private static final Pose FLOWER_POSE1 =
-            new Pose(131.51, 94.35, Math.toRadians(0));
+            new Pose(127, 94.35, Math.toRadians(0));
     private static final Pose PRESHOOT_POSE1 =
             new Pose(112, 31, Math.toRadians(90));
     private static final Pose SHOOT_POSE =
             new Pose(83.5, 31, Math.toRadians(90));
     private static final Pose FLOWER_POSE2 =
-            new Pose(94.33, 13.5, Math.toRadians(270));
+            new Pose(94.33, 15, Math.toRadians(270));
     private static final Pose ALMOST_FINAL_POSE =
             new Pose(83.5, 21.5, Math.toRadians(90));
     private static final Pose FINAL_POSE =
@@ -71,7 +71,7 @@ public class BlueAuton extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(START_POSE);
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.6);
 
         buildPath();
 

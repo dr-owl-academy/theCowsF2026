@@ -3,15 +3,17 @@ package org.firstinspires.ftc.teamcode.pedroPathing;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathBuilder;
 import com.pedropathing.paths.PathChain;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-@Autonomous(name = "BLUE - Collecting Teammate", group = "Autonomous")
+@Autonomous(name = "BLUE - Partner State Machine", group = "Autonomous")
 public class AutonWithCapableTeammate extends OpMode {
 
     private Follower follower;
-    private PathChain route;
 
     private final Pose startPose = pose(83.5, 135.466, 270);
     private final Pose northTransit = pose(112, 120, 270);
@@ -22,91 +24,139 @@ public class AutonWithCapableTeammate extends OpMode {
     private final Pose releasedPollenSearchEstimate = pose(83.5, 108, 270);
     private final Pose parkPose = pose(130, 35, 90);
 
+    private PathChain firstSouthPath;
+    private PathChain flowerPath;
+    private PathChain northPath;
+    private PathChain searchPath;
+    private PathChain returnSouthPath;
+    private PathChain parkPath;
+
+    private enum State {
+        FIRST_SOUTH,
+        BOTTOM_FLOWER,
+        NORTH_SHOT,
+        POLLEN_SEARCH,
+        RETURN_SOUTH,
+        PARK,
+        DONE
+    }
+
+    private State state = State.DONE;
+
     private static Pose pose(double x, double y, double degrees) {
         return new Pose(x, y, Math.toRadians(degrees));
+    }
+
+    private PathChain buildPath(Pose... points) {
+        PathBuilder builder = follower.pathBuilder();
+
+        for (int i = 0; i < points.length - 1; i++) {
+            builder.addPath(new BezierLine(points[i], points[i + 1]))
+                    .setLinearHeadingInterpolation(
+                            points[i].getHeading(),
+                            points[i + 1].getHeading()
+                    );
+        }
+
+        return builder.build();
     }
 
     @Override
     public void init() {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
-        follower.setMaxPower(0.3);
+        follower.setMaxPower(0.6);
 
-        route = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, northTransit))
-                .setConstantHeadingInterpolation(startPose.getHeading())
+        firstSouthPath = buildPath(
+                startPose,
+                northTransit,
+                southTransit,
+                southShot
+        );
 
-                .addPath(new BezierLine(northTransit, southTransit))
-                .setLinearHeadingInterpolation(
-                        northTransit.getHeading(),
-                        southTransit.getHeading()
-                )
+        flowerPath = buildPath(
+                southShot,
+                bottomFlower
+        );
 
-                .addPath(new BezierLine(southTransit, southShot))
-                .setConstantHeadingInterpolation(southShot.getHeading())
+        northPath = buildPath(
+                bottomFlower,
+                southTransit,
+                northTransit,
+                northShot
+        );
 
-                .addPath(new BezierLine(southShot, bottomFlower))
-                .setLinearHeadingInterpolation(
-                        southShot.getHeading(),
-                        bottomFlower.getHeading()
-                )
+        searchPath = buildPath(
+                northShot,
+                releasedPollenSearchEstimate
+        );
 
-                .addPath(new BezierLine(bottomFlower, southTransit))
-                .setLinearHeadingInterpolation(
-                        bottomFlower.getHeading(),
-                        southTransit.getHeading()
-                )
+        returnSouthPath = buildPath(
+                releasedPollenSearchEstimate,
+                northTransit,
+                southTransit,
+                southShot
+        );
 
-                .addPath(new BezierLine(southTransit, northTransit))
-                .setLinearHeadingInterpolation(
-                        southTransit.getHeading(),
-                        northTransit.getHeading()
-                )
-
-                .addPath(new BezierLine(northTransit, northShot))
-                .setConstantHeadingInterpolation(northShot.getHeading())
-
-                .addPath(new BezierLine(northShot, releasedPollenSearchEstimate))
-                .setConstantHeadingInterpolation(northShot.getHeading())
-
-                .addPath(new BezierLine(releasedPollenSearchEstimate, northTransit))
-                .setConstantHeadingInterpolation(northTransit.getHeading())
-
-                .addPath(new BezierLine(northTransit, southTransit))
-                .setLinearHeadingInterpolation(
-                        northTransit.getHeading(),
-                        southTransit.getHeading()
-                )
-
-                .addPath(new BezierLine(southTransit, southShot))
-                .setConstantHeadingInterpolation(southShot.getHeading())
-
-                .addPath(new BezierLine(southShot, parkPose))
-                .setConstantHeadingInterpolation(parkPose.getHeading())
-
-                .build();
-
-        telemetry.addLine("Collecting teammate route ready");
-        telemetry.update();
+        parkPath = buildPath(
+                southShot,
+                parkPose
+        );
     }
 
     @Override
     public void start() {
-        follower.followPath(route, true);
+        drive(firstSouthPath, State.FIRST_SOUTH);
     }
 
     @Override
     public void loop() {
         follower.update();
 
-        telemetry.addData("Following", follower.isBusy());
-        telemetry.addData("X", follower.getPose().getX());
-        telemetry.addData("Y", follower.getPose().getY());
-        telemetry.update();
+        if (follower.isBusy()) {
+            return;
+        }
+
+        switch (state) {
+            case FIRST_SOUTH:
+                drive(flowerPath, State.BOTTOM_FLOWER);
+                break;
+
+            case BOTTOM_FLOWER:
+                drive(northPath, State.NORTH_SHOT);
+                break;
+
+            case NORTH_SHOT:
+                drive(searchPath, State.POLLEN_SEARCH);
+                break;
+
+            case POLLEN_SEARCH:
+                drive(returnSouthPath, State.RETURN_SOUTH);
+                break;
+
+            case RETURN_SOUTH:
+                drive(parkPath, State.PARK);
+                break;
+
+            case PARK:
+                follower.breakFollowing();
+                state = State.DONE;
+                break;
+
+            case DONE:
+                break;
+        }
+    }
+
+    private void drive(PathChain path, State nextState) {
+        state = nextState;
+        follower.followPath(path, true);
     }
 
     @Override
     public void stop() {
+        state = State.DONE;
+
         if (follower != null) {
             follower.breakFollowing();
         }
