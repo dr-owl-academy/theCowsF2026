@@ -53,7 +53,7 @@ public class autonRedPath3 extends OpMode {
             new Pose(25.75, 47.54, Math.toRadians(180));
 
     private static final Pose FLOWER_POSE1 =
-            new Pose(9.67, 47.37, Math.toRadians(180));
+            new Pose(10.57, 47.37, Math.toRadians(180));
 
     private static final Pose CROSSOTHERSIDEPOSE =
             new Pose(25.75, 47.54, Math.toRadians(180));
