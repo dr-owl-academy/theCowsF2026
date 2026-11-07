@@ -19,27 +19,25 @@ public class autonRedPath4 extends OpMode {
         PATH_ONE,
         WAIT_FOR_PATH1,
         SHOT1,
-        WAIT_FOR_SHOT1,
+        WAIT_FOR_PATH2,
         SHOOT_BALLS1,
         WAIT_FOR_SHOOT_BALLS1,
         PATH2,
-        WAIT_FOR_PATH2,
-        PATH3,
         WAIT_FOR_PATH3,
-        PATH4,
+        PATH3,
         WAIT_FOR_PATH4,
+        PATH4,
+        WAIT_FOR_PATH5,
         POLLEN,
-        WAIT_FOR_POLLEN,
-        INTAKE_POLLEN,
         WAIT_FOR_INTAKE,
-        SHOT2,
-        WAIT_FOR_SHOT2,
+        SHOT2_PATH,
+        WAIT_FOR_PATH7,
         SHOOT_BALLS2,
         WAIT_FOR_SHOOT_BALLS2,
         PRE_FINAL,
-        WAIT_FOR_PRE_FINAL,
+        WAIT_FOR_PATH8,
         FINAL,
-        WAIT_FOR_FINAL,
+        WAIT_FOR_PATH9,
         COMPLETE
     }
 
@@ -83,36 +81,32 @@ public class autonRedPath4 extends OpMode {
     private static final Pose FINAL_POSE =
             new Pose(10.39, 118.16, Math.toRadians(102));
 
-
     @Override
     public void init() {
-
         follower = Constants.createFollower(hardwareMap);
-
         follower.setStartingPose(START_POSE);
         follower.setMaxPower(0.5);
-
         buildPaths();
 
         telemetry.addLine("Autonomous ready");
         telemetry.update();
     }
 
+    @Override
+    public void start() {
+        autoState = AutoState.SHOOT_THE_BALLS;
+    }
 
     @Override
     public void loop() {
-
         follower.update();
-
         autonomousPathUpdate();
 
         Pose currentPose = follower.getPose();
 
         telemetry.addData("X", currentPose.getX());
         telemetry.addData("Y", currentPose.getY());
-        telemetry.addData("Heading",
-                Math.toDegrees(currentPose.getHeading()));
-
+        telemetry.addData("Heading", Math.toDegrees(currentPose.getHeading()));
         telemetry.addData("State", autoState);
         telemetry.addData("Follower Busy", follower.isBusy());
 
@@ -123,77 +117,152 @@ public class autonRedPath4 extends OpMode {
         telemetry.update();
     }
 
-
     @Override
     public void stop() {
-
     }
 
-
     private void buildPaths() {
-
         driveToPathOne = follower.pathBuilder()
                 .addPath(new BezierLine(START_POSE, PRESHOT_POSE1))
-                .setLinearHeadingInterpolation(
-                        START_POSE.getHeading(),
-                        PRESHOT_POSE1.getHeading())
+                .setLinearHeadingInterpolation(START_POSE.getHeading(), PRESHOT_POSE1.getHeading())
                 .build();
 
         driveToShot1 = follower.pathBuilder()
                 .addPath(new BezierLine(PRESHOT_POSE1, SHOT1))
-                .setLinearHeadingInterpolation(
-                        PRESHOT_POSE1.getHeading(),
-                        SHOT1.getHeading())
+                .setLinearHeadingInterpolation(PRESHOT_POSE1.getHeading(), SHOT1.getHeading())
                 .build();
 
         driveToPath2 = follower.pathBuilder()
                 .addPath(new BezierLine(SHOT1, POSE4))
-                .setLinearHeadingInterpolation(
-                        SHOT1.getHeading(),
-                        POSE4.getHeading())
+                .setLinearHeadingInterpolation(SHOT1.getHeading(), POSE4.getHeading())
                 .build();
 
         driveToPath3 = follower.pathBuilder()
                 .addPath(new BezierLine(POSE4, POSE5))
-                .setLinearHeadingInterpolation(
-                        POSE4.getHeading(),
-                        POSE5.getHeading())
+                .setLinearHeadingInterpolation(POSE4.getHeading(), POSE5.getHeading())
                 .build();
 
         driveToPath4 = follower.pathBuilder()
                 .addPath(new BezierLine(POSE5, POLLENINTAKEPOSE))
-                .setLinearHeadingInterpolation(
-                        POSE5.getHeading(),
-                        POLLENINTAKEPOSE.getHeading())
+                .setLinearHeadingInterpolation(POSE5.getHeading(), POLLENINTAKEPOSE.getHeading())
                 .build();
 
         driveToPollen = follower.pathBuilder()
                 .addPath(new BezierLine(POLLENINTAKEPOSE, SHOTPOSE2))
-                .setLinearHeadingInterpolation(
-                        POLLENINTAKEPOSE.getHeading(),
-                        SHOTPOSE2.getHeading())
+                .setLinearHeadingInterpolation(POLLENINTAKEPOSE.getHeading(), SHOTPOSE2.getHeading())
                 .build();
 
         driveToPreFinal = follower.pathBuilder()
                 .addPath(new BezierLine(SHOTPOSE2, ALMOST_FINAL_POST))
-                .setLinearHeadingInterpolation(
-                        SHOTPOSE2.getHeading(),
-                        ALMOST_FINAL_POST.getHeading())
+                .setLinearHeadingInterpolation(SHOTPOSE2.getHeading(), ALMOST_FINAL_POST.getHeading())
                 .build();
 
         driveToFinal = follower.pathBuilder()
                 .addPath(new BezierLine(ALMOST_FINAL_POST, FINAL_POSE))
-                .setLinearHeadingInterpolation(
-                        ALMOST_FINAL_POST.getHeading(),
-                        FINAL_POSE.getHeading())
+                .setLinearHeadingInterpolation(ALMOST_FINAL_POST.getHeading(), FINAL_POSE.getHeading())
                 .build();
     }
 
-
     private void autonomousPathUpdate() {
-
         switch (autoState) {
-
+            case SHOOT_THE_BALLS:
+                autoState = AutoState.WAIT_FOR_SHOT;
+                break;
+            case WAIT_FOR_SHOT:
+                autoState = AutoState.PATH_ONE;
+                break;
+            case PATH_ONE:
+                follower.followPath(driveToPathOne, true);
+                autoState = AutoState.WAIT_FOR_PATH1;
+                break;
+            case WAIT_FOR_PATH1:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.SHOT1;
+                }
+                break;
+            case SHOT1:
+                follower.followPath(driveToShot1, true);
+                autoState = AutoState.WAIT_FOR_PATH2;
+                break;
+            case WAIT_FOR_PATH2:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.SHOOT_BALLS1;
+                }
+                break;
+            case SHOOT_BALLS1:
+                autoState = AutoState.WAIT_FOR_SHOOT_BALLS1;
+                break;
+            case WAIT_FOR_SHOOT_BALLS1:
+                autoState = AutoState.PATH2;
+                break;
+            case PATH2:
+                follower.followPath(driveToPath2, true);
+                autoState = AutoState.WAIT_FOR_PATH3;
+                break;
+            case WAIT_FOR_PATH3:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.PATH3;
+                }
+                break;
+            case PATH3:
+                follower.followPath(driveToPath3, true);
+                autoState = AutoState.WAIT_FOR_PATH4;
+                break;
+            case WAIT_FOR_PATH4:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.PATH4;
+                }
+                break;
+            case PATH4:
+                follower.followPath(driveToPath4, true);
+                autoState = AutoState.WAIT_FOR_PATH5;
+                break;
+            case WAIT_FOR_PATH5:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.POLLEN;
+                }
+                break;
+            case POLLEN:
+                follower.setMaxPower(0.25);
+                autoState = AutoState.WAIT_FOR_INTAKE;
+                break;
+            case WAIT_FOR_INTAKE:
+                autoState = AutoState.SHOT2_PATH;
+                break;
+            case SHOT2_PATH:
+                follower.setMaxPower(0.5);
+                follower.followPath(driveToPollen, true);
+                autoState = AutoState.WAIT_FOR_PATH7;
+                break;
+            case WAIT_FOR_PATH7:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.SHOOT_BALLS2;
+                }
+                break;
+            case SHOOT_BALLS2:
+                autoState = AutoState.WAIT_FOR_SHOOT_BALLS2;
+                break;
+            case WAIT_FOR_SHOOT_BALLS2:
+                autoState = AutoState.PRE_FINAL;
+                break;
+            case PRE_FINAL:
+                follower.followPath(driveToPreFinal, true);
+                autoState = AutoState.WAIT_FOR_PATH8;
+                break;
+            case WAIT_FOR_PATH8:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.FINAL;
+                }
+                break;
+            case FINAL:
+                follower.followPath(driveToFinal, true);
+                autoState = AutoState.WAIT_FOR_PATH9;
+                break;
+            case WAIT_FOR_PATH9:
+                if (!follower.isBusy()) {
+                    autoState = AutoState.COMPLETE;
+                }
+                break;
             case COMPLETE:
                 break;
         }
