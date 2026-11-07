@@ -71,7 +71,7 @@ public class BlueAuton extends OpMode {
     public void init() {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(START_POSE);
-        follower.setMaxPower(0.5);
+        follower.setMaxPower(0.3);
 
         buildPath();
 
